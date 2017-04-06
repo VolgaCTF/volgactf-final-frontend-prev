@@ -1,51 +1,50 @@
 import React from 'react'
-import { Styles } from 'material-ui'
+import { blueGrey50, blueGrey600 } from 'material-ui/styles/colors'
 
 import ContestRoundStore from '../stores/contest-round-store'
 import ContestRoundActions from '../actions/contest-round-actions'
 
-
 export default class ContestRoundView extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = ContestRoundStore.getState()
+  constructor (props) {
+    super(props)
+    this.state = ContestRoundStore.getState()
 
-        this.onUpdate = this.onUpdate.bind(this)
+    this.onUpdate = this.onUpdate.bind(this)
+  }
+
+  componentDidMount () {
+    ContestRoundStore.listen(this.onUpdate)
+    ContestRoundActions.fetch()
+  }
+
+  componentWillUnmount () {
+    ContestRoundStore.unlisten(this.onUpdate)
+  }
+
+  onUpdate (state) {
+    this.setState(state)
+  }
+
+  render () {
+    if (this.state.loading) {
+      return <span></span>
     }
 
-    componentDidMount() {
-        ContestRoundStore.listen(this.onUpdate)
-        ContestRoundActions.fetch()
+    if (this.state.err) {
+      return <span>Failed to fetch contest round</span>
     }
 
-    componentWillUnmount() {
-        ContestRoundStore.unlisten(this.onUpdate)
+    if (this.state.model.value == null) {
+      return <span></span>
     }
 
-    onUpdate(state) {
-        this.setState(state)
+    let style = {
+      padding: '4px 8px',
+      marginRight: '10px',
+      color: blueGrey600,
+      backgroundColor: blueGrey50
     }
 
-    render() {
-        if (this.state.loading) {
-            return <span></span>
-        }
-
-        if (this.state.err) {
-            return <span>Failed to fetch contest round</span>
-        }
-
-        if (this.state.model.value == null) {
-            return <span></span>
-        }
-
-        let style = {
-            padding: '4px 8px',
-            marginRight: '10px',
-            color: Styles.Colors.blueGrey600,
-            backgroundColor: Styles.Colors.blueGrey50
-        }
-
-        return <span style={style}>{`Round ${this.state.model.value}`}</span>
-    }
+    return <span style={style}>{`Round ${this.state.model.value}`}</span>
+  }
 }

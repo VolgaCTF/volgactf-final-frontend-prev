@@ -1,12 +1,11 @@
-import alt from '../alt'
-import { List } from 'immutable'
-
+import alt from '../utils/alt'
 
 class LogActions {
-    push(logs) {
-        this.dispatch(logs)
+  push (logs) {
+    return (dispatch) => {
+      dispatch(logs)
     }
+  }
 }
-
 
 export default alt.createActions(LogActions)

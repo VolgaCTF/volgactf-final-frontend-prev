@@ -1,47 +1,45 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import ServiceActions from '../actions/service-actions'
 import { List } from 'immutable'
 
-
 class ServiceStore {
-    constructor() {
-        this.state = {
-            loading: true,
-            err: null,
-            collection: new List()
-        }
-
-        this.bindListeners({
-            handleUpdate: ServiceActions.UPDATE,
-            handleFetch: ServiceActions.FETCH,
-            handleFailed: ServiceActions.FAILED
-        })
+  constructor () {
+    this.state = {
+      loading: true,
+      err: null,
+      collection: new List()
     }
 
-    handleUpdate(services) {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: services
-        })
-    }
+    this.bindListeners({
+      handleUpdate: ServiceActions.UPDATE,
+      handleFetch: ServiceActions.FETCH,
+      handleFailed: ServiceActions.FAILED
+    })
+  }
 
-    handleFetch() {
-        this.setState({
-            loading: true,
-            err: null,
-            collection: new List()
-        })
-    }
+  handleUpdate (services) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: services
+    })
+  }
 
-    handleFailed(err) {
-        this.setState({
-            loading: false,
-            err: err,
-            collection: new List()
-        })
-    }
+  handleFetch () {
+    this.setState({
+      loading: true,
+      err: null,
+      collection: new List()
+    })
+  }
+
+  handleFailed (err) {
+    this.setState({
+      loading: false,
+      err: err,
+      collection: new List()
+    })
+  }
 }
-
 
 export default alt.createStore(ServiceStore, 'ServiceStore')

@@ -1,121 +1,119 @@
-import alt from '../alt'
+import alt from '../utils/alt'
 import NewsActions from '../actions/news-actions'
-import eventManager from '../event-manager'
+import eventManager from '../utils/event-manager'
 import PostModel from '../models/post-model'
 import { List } from 'immutable'
 
-
 class NewsStore {
-    constructor() {
-        this.state = {
-            loading: true,
-            err: null,
-            collection: new List()
-        }
-
-        this.bindListeners({
-            handleUpdate: NewsActions.UPDATE,
-            handleFetch: NewsActions.FETCH,
-            handleFailed: NewsActions.FAILED,
-            handleOnAdd: NewsActions.ON_ADD,
-            handleOnEdit: NewsActions.ON_EDIT,
-            handleOnRemove: NewsActions.ON_REMOVE,
-            handleRemove: NewsActions.REMOVE,
-            handleAdd: NewsActions.ADD,
-            handleEdit: NewsActions.EDIT
-        })
-
-        if (eventManager.enabled) {
-            eventManager.eventSource.addEventListener('posts/add', (e) => {
-                let data = JSON.parse(e.data)
-                NewsActions.onAdd(new PostModel(data))
-            })
-
-            eventManager.eventSource.addEventListener('posts/remove', (e) => {
-                let data = JSON.parse(e.data)
-                NewsActions.onRemove(data.id)
-            })
-
-            eventManager.eventSource.addEventListener('posts/edit', (e) => {
-                let data = JSON.parse(e.data)
-                NewsActions.onEdit(new PostModel(data))
-            })
-        }
+  constructor () {
+    this.state = {
+      loading: true,
+      err: null,
+      collection: new List()
     }
 
-    handleUpdate(posts) {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: posts
-        })
-    }
+    this.bindListeners({
+      handleUpdate: NewsActions.UPDATE,
+      handleFetch: NewsActions.FETCH,
+      handleFailed: NewsActions.FAILED,
+      handleOnAdd: NewsActions.ON_ADD,
+      handleOnEdit: NewsActions.ON_EDIT,
+      handleOnRemove: NewsActions.ON_REMOVE,
+      handleRemove: NewsActions.REMOVE,
+      handleAdd: NewsActions.ADD,
+      handleEdit: NewsActions.EDIT
+    })
 
-    handleOnAdd(post) {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: this.state.collection.push(post)
-        })
-    }
+    if (eventManager.enabled) {
+      eventManager.eventSource.addEventListener('posts/add', (e) => {
+        let data = JSON.parse(e.data)
+        NewsActions.onAdd(new PostModel(data))
+      })
 
-    handleOnEdit(post) {
-        let ndx = this.state.collection.findIndex(x => x.id === post.id)
-        this.setState({
-            loading: false,
-            err: null,
-            collection: (ndx === -1) ? this.state.collection.push(post) : this.state.collection.set(ndx, post)
-        })
-    }
+      eventManager.eventSource.addEventListener('posts/remove', (e) => {
+        let data = JSON.parse(e.data)
+        NewsActions.onRemove(data.id)
+      })
 
-    handleOnRemove(postId) {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: this.state.collection.filter(x => x.id !== postId)
-        })
+      eventManager.eventSource.addEventListener('posts/edit', (e) => {
+        let data = JSON.parse(e.data)
+        NewsActions.onEdit(new PostModel(data))
+      })
     }
+  }
 
-    handleRemove() {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: this.state.collection
-        })
-    }
+  handleUpdate (posts) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: posts
+    })
+  }
 
-    handleAdd() {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: this.state.collection
-        })
-    }
+  handleOnAdd (post) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection.push(post)
+    })
+  }
 
-    handleEdit() {
-        this.setState({
-            loading: false,
-            err: null,
-            collection: this.state.collection
-        })
-    }
+  handleOnEdit (post) {
+    let ndx = this.state.collection.findIndex(x => x.id === post.id)
+    this.setState({
+      loading: false,
+      err: null,
+      collection: (ndx === -1) ? this.state.collection.push(post) : this.state.collection.set(ndx, post)
+    })
+  }
 
-    handleFetch() {
-        this.setState({
-            loading: true,
-            err: null,
-            collection: new List()
-        })
-    }
+  handleOnRemove (postId) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection.filter(x => x.id !== postId)
+    })
+  }
 
-    handleFailed(err) {
-        this.setState({
-            loading: false,
-            err: err,
-            collection: new List()
-        })
-    }
+  handleRemove () {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection
+    })
+  }
+
+  handleAdd () {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection
+    })
+  }
+
+  handleEdit () {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection
+    })
+  }
+
+  handleFetch () {
+    this.setState({
+      loading: true,
+      err: null,
+      collection: new List()
+    })
+  }
+
+  handleFailed (err) {
+    this.setState({
+      loading: false,
+      err: err,
+      collection: new List()
+    })
+  }
 }
-
 
 export default alt.createStore(NewsStore, 'NewsStore')

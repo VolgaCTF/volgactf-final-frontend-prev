@@ -12,90 +12,81 @@ import concat from 'gulp-concat'
 import mustache from 'gulp-mustache'
 import Customize from './customize'
 
-
 var paths = {
-    html: [
-        'src/index.html'
-    ],
-    scripts: [
-        'src/scripts/app.jsx'
-    ],
-    styles: [
-        'node_modules/normalize.css/normalize.css',
-        'src/styles/app.css'
-    ],
-    images: [
-    ]
+  html: [
+    'src/index.html'
+  ],
+  scripts: [
+    'src/scripts/main.jsx'
+  ],
+  styles: [
+    'node_modules/normalize.css/normalize.css',
+    'src/styles/app.css'
+  ],
+  images: [
+  ]
 }
 
 if (Customize.contestLogo && Customize.contestLogo.src) {
-    paths.images.push(Customize.contestLogo.src)
+  paths.images.push(Customize.contestLogo.src)
 }
 
 if (Customize.extraImages) {
-    Array.prototype.push.apply(paths.images, Customize.extraImages)
+  Array.prototype.push.apply(paths.images, Customize.extraImages)
 }
 
-function isProduction() {
-    return process.env['NODE_ENV'] === 'production';
+function isProduction () {
+  return process.env['NODE_ENV'] === 'production'
 }
-
 
 gulp.task('clean_html', (callback) => {
-    del(['build/html/*'], callback)
+  return del(['build/html/*'], callback)
 })
-
 
 gulp.task('html', ['clean_html'], () => {
-    return gulp.src(paths.html)
-        .pipe(mustache({title: Customize.contestTitle}))
-        .pipe(gulpIf(isProduction, minifyHTML()))
-        .pipe(gulp.dest('build/html'))
+  return gulp.src(paths.html)
+  .pipe(mustache({title: Customize.contestTitle}))
+  .pipe(gulpIf(isProduction, minifyHTML()))
+  .pipe(gulp.dest('build/html'))
 })
-
 
 gulp.task('clean_scripts', (callback) => {
-    del(['build/assets/js/*.js'], callback)
+  return del(['build/assets/js/*.js'], callback)
 })
-
 
 gulp.task('scripts', ['clean_scripts'], () => {
-    return browserify({
-        entries: paths.scripts,
-        extensions: ['.jsx'],
-        debug: !isProduction()
-    })
-    .transform(babelify)
-    .bundle()
-    .pipe(source('app.js'))
-    .pipe(buffer())
-    .pipe(gulpIf(isProduction, uglify()))
-    .pipe(gulp.dest('build/assets/js'))
+  return browserify({
+    entries: paths.scripts,
+    extensions: ['.jsx'],
+    debug: !isProduction()
+  })
+  .transform(babelify)
+  .bundle()
+  .pipe(source('app.js'))
+  .pipe(buffer())
+  .pipe(gulpIf(isProduction, uglify()))
+  .pipe(gulp.dest('build/assets/js'))
 })
-
 
 gulp.task('clean_styles', (callback) => {
-    del(['build/assets/css/*.css'], callback)
+  return del(['build/assets/css/*.css'], callback)
 })
-
 
 gulp.task('styles', ['clean_styles'], () => {
-    return gulp.src(paths.styles)
-        .pipe(concat('app.css'))
-        .pipe(gulpIf(isProduction, minifyCSS()))
-        .pipe(gulp.dest('build/assets/css'))
+  return gulp.src(paths.styles)
+  .pipe(concat('app.css'))
+  .pipe(gulpIf(isProduction, minifyCSS()))
+  .pipe(gulp.dest('build/assets/css'))
 })
-
 
 gulp.task('clean_images', (callback) => {
-  del(['build/assets/images/*'], callback)
+  return del(['build/assets/images/*'], callback)
 })
 
-
 gulp.task('images', ['clean_images'], () => {
-  gulp
-    .src(paths.images)
-    .pipe(gulp.dest('build/assets/images'))
+  return gulp
+  .src(paths.images)
+  .pipe(gulp.dest('build/assets/images'))
 })
 
 gulp.task('default', ['html', 'scripts', 'styles', 'images'])

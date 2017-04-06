@@ -1,9 +1,9 @@
 import alt from '../utils/alt'
-import ContestRoundActions from '../actions/contest-round-actions'
+import ScoreboardActions from '../actions/scoreboard-actions'
 import eventManager from '../utils/event-manager'
-import ContestRoundModel from '../models/contest-round-model'
+import ScoreboardModel from '../models/scoreboard-model'
 
-class ContestRoundStore {
+class ScoreboardStore {
   constructor () {
     this.state = {
       loading: true,
@@ -12,24 +12,24 @@ class ContestRoundStore {
     }
 
     this.bindListeners({
-      handleUpdate: ContestRoundActions.UPDATE,
-      handleFetch: ContestRoundActions.FETCH,
-      handleFailed: ContestRoundActions.FAILED
+      handleUpdate: ScoreboardActions.UPDATE,
+      handleFetch: ScoreboardActions.FETCH,
+      handleFailed: ScoreboardActions.FAILED
     })
 
     if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('contest/round', (e) => {
+      eventManager.eventSource.addEventListener('scoreboard', (e) => {
         let data = JSON.parse(e.data)
-        ContestRoundActions.update(new ContestRoundModel(data))
+        ScoreboardActions.update(new ScoreboardModel(data))
       })
     }
   }
 
-  handleUpdate (contestRound) {
+  handleUpdate (scoreboard) {
     this.setState({
       loading: false,
       err: null,
-      model: contestRound
+      model: scoreboard
     })
   }
 
@@ -50,4 +50,4 @@ class ContestRoundStore {
   }
 }
 
-export default alt.createStore(ContestRoundStore, 'ContestRoundStore')
+export default alt.createStore(ScoreboardStore, 'ScoreboardStore')

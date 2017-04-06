@@ -2,13 +2,12 @@ import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
 import alt from '../utils/alt'
-import ServiceModel from '../models/service-model'
-import { List } from 'immutable'
+import ScoreboardModel from '../models/scoreboard-model'
 
-class ServiceActions {
+class ScoreboardActions {
   static fetchPromise () {
     return new Promise((resolve, reject) => {
-      fetch('/api/services')
+      fetch('/api/scoreboard')
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response.json()
@@ -19,10 +18,7 @@ class ServiceActions {
         }
       })
       .then((data) => {
-        let services = data.map((props) => {
-          return new ServiceModel(props)
-        })
-        resolve(new List(services))
+        resolve(new ScoreboardModel(data))
       })
       .catch((err) => {
         reject(err)
@@ -30,18 +26,18 @@ class ServiceActions {
     })
   }
 
-  update (services) {
-    return services
+  update (scoreboard) {
+    return scoreboard
   }
 
   fetch () {
     return (dispatch) => {
       dispatch()
 
-      ServiceActions
+      ScoreboardActions
       .fetchPromise()
-      .then((services) => {
-        this.update(services)
+      .then((scoreboard) => {
+        this.update(scoreboard)
       })
       .catch((err) => {
         this.failed(err)
@@ -54,4 +50,4 @@ class ServiceActions {
   }
 }
 
-export default alt.createActions(ServiceActions)
+export default alt.createActions(ScoreboardActions)

@@ -8,10 +8,12 @@ body {
 }
 
 .emoji {
-    vertical-align: middle
+    vertical-align: middle;
+    max-height: 36px;
 }
 
 .themis-table {
+    border-collapse: collapse;
     width: 100%;
     max-width: 100%;
     margin-bottom: 20px
@@ -62,11 +64,11 @@ body {
 }
 
 .themis-score-points {
-    font-size: 0.8em
+    font-size: 0.7em
 }
 
 .themis-score-last-attack {
-    font-size: 0.8em
+    font-size: 0.7em
 }
 
 .themis-text-normal {
