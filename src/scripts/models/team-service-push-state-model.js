@@ -1,4 +1,4 @@
-export default class TeamServiceStateModel {
+export default class TeamServicePushStateModel {
   constructor (props) {
     this.id = props.id
     this.teamId = props.team_id

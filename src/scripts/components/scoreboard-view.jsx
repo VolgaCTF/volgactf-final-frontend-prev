@@ -12,8 +12,11 @@ import TeamStore from '../stores/team-store'
 import ServiceActions from '../actions/service-actions'
 import ServiceStore from '../stores/service-store'
 
-import TeamServiceStateActions from '../actions/team-service-state-actions'
-import TeamServiceStateStore from '../stores/team-service-state-store'
+import TeamServicePushStateActions from '../actions/team-service-push-state-actions'
+import TeamServicePushStateStore from '../stores/team-service-push-state-store'
+
+import TeamServicePullStateActions from '../actions/team-service-pull-state-actions'
+import TeamServicePullStateStore from '../stores/team-service-pull-state-store'
 
 import ScoreboardActions from '../actions/scoreboard-actions'
 import ScoreboardStore from '../stores/scoreboard-store'
@@ -26,13 +29,15 @@ export default class ScoreboardView extends React.Component {
     this.state = {
       teams: TeamStore.getState(),
       services: ServiceStore.getState(),
-      teamServiceStates: TeamServiceStateStore.getState(),
+      teamServicePushStates: TeamServicePushStateStore.getState(),
+      teamServicePullStates: TeamServicePullStateStore.getState(),
       scoreboard: ScoreboardStore.getState()
     }
 
     this.onUpdateTeams = this.onUpdateTeams.bind(this)
     this.onUpdateServices = this.onUpdateServices.bind(this)
-    this.onUpdateTeamServiceStates = this.onUpdateTeamServiceStates.bind(this)
+    this.onUpdateTeamServicePushStates = this.onUpdateTeamServicePushStates.bind(this)
+    this.onUpdateTeamServicePullStates = this.onUpdateTeamServicePullStates.bind(this)
     this.onUpdateScoreboard = this.onUpdateScoreboard.bind(this)
   }
 
@@ -48,9 +53,15 @@ export default class ScoreboardView extends React.Component {
     })
   }
 
-  onUpdateTeamServiceStates (teamServiceStates) {
+  onUpdateTeamServicePushStates (teamServicePushStates) {
     this.setState({
-      teamServiceStates: teamServiceStates
+      teamServicePushStates: teamServicePushStates
+    })
+  }
+
+  onUpdateTeamServicePullStates (teamServicePullStates) {
+    this.setState({
+      teamServicePullStates: teamServicePullStates
     })
   }
 
@@ -62,7 +73,7 @@ export default class ScoreboardView extends React.Component {
 
   calculateTable () {
     let order = [
-      'position',
+      'rank',
       'team',
       'totalRelative',
       'attack',
@@ -71,17 +82,34 @@ export default class ScoreboardView extends React.Component {
     ]
 
     let headers = {
-      position: '#',
-      team: 'Team',
-      totalRelative: 'Score',
-      attack: 'Attack',
-      availability: 'Availability',
-      defence: 'Defence'
+      rank: {
+        title: 'Rank'
+      },
+      team: {
+        title: 'Team'
+      },
+      totalRelative: {
+        title: 'Score'
+      },
+      attack: {
+        title: 'Attack'
+      },
+      availability: {
+        title: 'Availability'
+      },
+      defence: {
+        title: 'Defence'
+      }
     }
 
     for (let service of this.state.services.collection) {
       let serviceId = `#service_${service.id}`
-      headers[serviceId] = service.name
+      headers[serviceId] = {
+        title: service.name,
+        style: {
+          textAlign: 'center'
+        }
+      }
       order.push(serviceId)
     }
 
@@ -108,17 +136,29 @@ export default class ScoreboardView extends React.Component {
 
       for (let service of this.state.services.collection) {
         let serviceId = `#service_${service.id}`
-        let teamServiceState = this.state.teamServiceStates.collection.find((state) => {
+        let teamServicePushState = this.state.teamServicePushStates.collection.find((state) => {
           return state.teamId === team.id && state.serviceId === service.id
         })
-        row[serviceId] = teamServiceState ? teamServiceState.state : 0
+        let teamServicePullState = this.state.teamServicePullStates.collection.find((state) => {
+          return state.teamId === team.id && state.serviceId === service.id
+        })
+        row[serviceId] = {
+          push: {
+            value: teamServicePushState ? teamServicePushState.state : 0,
+            updated: teamServicePushState ? teamServicePushState.updatedAt : null
+          },
+          pull: {
+            value: teamServicePullState ? teamServicePullState.state : 0,
+            updated: teamServicePullState ? teamServicePullState.updatedAt : null
+          }
+        }
       }
 
       rowData.push(row)
     }
 
     let rows = rowData.map((row, ndx) => {
-      row['position'] = ndx + 1
+      row['rank'] = ndx + 1
       return row
     })
 
@@ -133,19 +173,22 @@ export default class ScoreboardView extends React.Component {
   componentDidMount () {
     TeamStore.listen(this.onUpdateTeams)
     ServiceStore.listen(this.onUpdateServices)
-    TeamServiceStateStore.listen(this.onUpdateTeamServiceStates)
+    TeamServicePushStateStore.listen(this.onUpdateTeamServicePushStates)
+    TeamServicePullStateStore.listen(this.onUpdateTeamServicePullStates)
     ScoreboardStore.listen(this.onUpdateScoreboard)
 
     TeamActions.fetch()
     ServiceActions.fetch()
-    TeamServiceStateActions.fetch()
+    TeamServicePushStateActions.fetch()
+    TeamServicePullStateActions.fetch()
     ScoreboardActions.fetch()
   }
 
   componentWillUnmount () {
     TeamStore.unlisten(this.onUpdateTeams)
     ServiceStore.unlisten(this.onUpdateServices)
-    TeamServiceStateStore.unlisten(this.onUpdateTeamServiceStates)
+    TeamServicePushStateStore.unlisten(this.onUpdateTeamServicePushStates)
+    TeamServicePullStateStore.unlisten(this.onUpdateTeamServicePullStates)
     ScoreboardStore.unlisten(this.onUpdateScoreboard)
   }
 
@@ -153,7 +196,8 @@ export default class ScoreboardView extends React.Component {
     return (
       this.state.teams.loading ||
       this.state.services.loading ||
-      this.state.teamServiceStates.loading ||
+      this.state.teamServicePushStates.loading ||
+      this.state.teamServicePullStates.loading ||
       this.state.scoreboard.loading
     )
   }
@@ -162,7 +206,8 @@ export default class ScoreboardView extends React.Component {
     return (
       this.state.teams.err ||
       this.state.services.err ||
-      this.state.teamServiceStates.err ||
+      this.state.teamServicePushStates.err ||
+      this.state.teamServicePullStates.err ||
       this.state.scoreboard.err
     )
   }

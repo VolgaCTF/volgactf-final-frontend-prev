@@ -2,13 +2,13 @@ import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
 import alt from '../utils/alt'
-import TeamServiceStateModel from '../models/team-service-state-model'
+import TeamServicePullStateModel from '../models/team-service-pull-state-model'
 import { List } from 'immutable'
 
-class TeamServiceStateActions {
+class TeamServicePullStateActions {
   static fetchPromise () {
     return new Promise((resolve, reject) => {
-      fetch('/api/team/services')
+      fetch('/api/team/service/pull-states')
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response.json()
@@ -19,10 +19,10 @@ class TeamServiceStateActions {
         }
       })
       .then((data) => {
-        let teamServiceStates = data.map((props) => {
-          return new TeamServiceStateModel(props)
+        let teamServicePullStates = data.map((props) => {
+          return new TeamServicePullStateModel(props)
         })
-        resolve(new List(teamServiceStates))
+        resolve(new List(teamServicePullStates))
       })
       .catch((err) => {
         reject(err)
@@ -30,22 +30,22 @@ class TeamServiceStateActions {
     })
   }
 
-  update (teamServiceStates) {
-    return teamServiceStates
+  update (teamServicePullStates) {
+    return teamServicePullStates
   }
 
-  updateSingle (teamServiceState) {
-    return teamServiceState
+  updateSingle (teamServicePullState) {
+    return teamServicePullState
   }
 
   fetch () {
     return (dispatch) => {
       dispatch()
 
-      TeamServiceStateActions
+      TeamServicePullStateActions
       .fetchPromise()
-      .then((teamServiceStates) => {
-        this.update(teamServiceStates)
+      .then((teamServicePullStates) => {
+        this.update(teamServicePullStates)
       })
       .catch((err) => {
         this.failed(err)
@@ -58,4 +58,4 @@ class TeamServiceStateActions {
   }
 }
 
-export default alt.createActions(TeamServiceStateActions)
+export default alt.createActions(TeamServicePullStateActions)

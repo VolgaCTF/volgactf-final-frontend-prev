@@ -1,51 +1,134 @@
 import React from 'react'
 import { green50, green700, red50, red600, deepOrange50, deepOrange500, brown50, brown600, grey100, grey600 } from 'material-ui/styles/colors'
+import moment from 'moment'
 
 export default class ScoreTableServiceStateCellView extends React.Component {
-  render () {
+  getStateDescription (status) {
+    switch (status) {
+      case 1:
+        return 'up'
+      case 2:
+        return 'down'
+      case 3:
+        return 'corrupt'
+      case 4:
+        return 'mumble'
+      case 5:
+        return 'internal_error'
+      default:
+        return 'n/a'
+    }
+  }
+
+  getStateStyle (status) {
     let style = {
-      padding: '4px 8px',
-      fontSize: '0.9em'
+      width: '50%',
+      padding: '2px',
+      fontSize: '0.8em',
+      textAlign: 'center'
     }
 
-    let text = null
-
-    switch (this.props.value) {
+    switch (status) {
       case 1:
-        text = 'up'
         style.color = green700
         style.backgroundColor = green50
         break
       case 2:
-        text = 'down'
         style.color = red600
         style.backgroundColor = red50
         break
       case 3:
-        text = 'corrupt'
         style.color = deepOrange500
         style.backgroundColor = deepOrange50
         break
       case 4:
-        text = 'mumble'
         style.color = brown600
         style.backgroundColor = brown50
         break
       case 5:
-        text = 'internal_error'
         style.color = grey600
         style.backgroundColor = grey100
         break
       default:
-        text = 'n/a'
         style.color = grey600
         style.backgroundColor = grey100
         break
     }
 
+    return style
+  }
+
+  getLabelStyle (status) {
+    let style = {
+      width: '50%',
+      padding: '2px',
+      fontSize: '0.3em',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontVariant: 'small-caps'
+    }
+
+    switch (status) {
+      case 1:
+        style.color = green700
+        style.backgroundColor = green50
+        break
+      case 2:
+        style.color = red600
+        style.backgroundColor = red50
+        break
+      case 3:
+        style.color = deepOrange500
+        style.backgroundColor = deepOrange50
+        break
+      case 4:
+        style.color = brown600
+        style.backgroundColor = brown50
+        break
+      case 5:
+        style.color = grey600
+        style.backgroundColor = grey100
+        break
+      default:
+        style.color = grey600
+        style.backgroundColor = grey100
+        break
+    }
+
+    return style
+  }
+
+  getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  render () {
+    const pushValue = this.props.value.push.value
+    const pullValue = this.props.value.pull.value
+
+    const pushUpdated = this.props.value.push.updated ? `Updated at ${moment(this.props.value.push.updated).format('HH:mm:ss')}` : 'Updated: never'
+    const pullUpdated = this.props.value.pull.updated ? `Updated at ${moment(this.props.value.pull.updated).format('HH:mm:ss')}` : 'Updated: never'
+
     return (
       <td>
-        <span style={style}>{text}</span>
+        <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '4px 0' }}>
+          <thead>
+            <tr>
+              <td style={this.getLabelStyle(pushValue)} title={pushUpdated}>push</td>
+              <td style={this.getLabelStyle(pullValue)} title={pullUpdated}>pull</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={this.getStateStyle(pushValue)} title={pushUpdated}>
+                {this.getStateDescription(pushValue)}
+              </td>
+              <td style={this.getStateStyle(pullValue)} title={pullUpdated}>
+                {this.getStateDescription(pullValue)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </td>
     )
   }

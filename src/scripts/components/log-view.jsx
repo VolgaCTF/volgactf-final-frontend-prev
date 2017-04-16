@@ -38,7 +38,7 @@ export default class LogView extends React.Component {
       case 2:
         text = <span style={{color: purple900}}>Round <code style={{color: red900}}>{this.props.params.value}</code> has started!</span>
         break
-      case 3:
+      case 31:
         let team = this.props.teams.find(x => x.id === this.props.params.team_id)
         let service = this.props.services.find(x => x.id === this.props.params.service_id)
         if (team != null && service != null) {
@@ -75,7 +75,47 @@ export default class LogView extends React.Component {
               break
           }
 
-          text = <span style={{color: brown900}}>Team <code style={{color: teal900}}>{team.name}</code>, service <code style={{color: pink900}}>{service.name}</code> state is <code style={style}>{status}</code></span>
+          text = <span style={{color: brown900}}>Team <code style={{color: teal900}}>{team.name}</code>, service <code style={{color: pink900}}>{service.name}</code> push state is <code style={style}>{status}</code></span>
+        }
+        break
+      case 32:
+        let team2 = this.props.teams.find(x => x.id === this.props.params.team_id)
+        let service2 = this.props.services.find(x => x.id === this.props.params.service_id)
+        if (team2 != null && service2 != null) {
+          let style = {
+            color: grey600
+          }
+
+          let status = null
+
+          switch (this.props.params.state) {
+            case 1:
+              status = 'up'
+              style.color = green700
+              break
+            case 2:
+              status = 'down'
+              style.color = red600
+              break
+            case 3:
+              status = 'corrupt'
+              style.color = deepOrange500
+              break
+            case 4:
+              status = 'mumble'
+              style.color = brown600
+              break
+            case 5:
+              status = 'internal_error'
+              style.color = grey600
+              break
+            default:
+              status = 'n/a'
+              style.color = grey600
+              break
+          }
+
+          text = <span style={{color: brown900}}>Team <code style={{color: teal900}}>{team2.name}</code>, service <code style={{color: pink900}}>{service2.name}</code> pull state is <code style={style}>{status}</code></span>
         }
         break
       case 4:
