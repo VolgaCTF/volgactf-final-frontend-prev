@@ -145,11 +145,13 @@ export default class ScoreboardView extends React.Component {
         row[serviceId] = {
           push: {
             value: teamServicePushState ? teamServicePushState.state : 0,
-            updated: teamServicePushState ? teamServicePushState.updatedAt : null
+            updated: teamServicePushState ? teamServicePushState.updatedAt : null,
+            message: teamServicePushState ? teamServicePushState.message : null
           },
           pull: {
             value: teamServicePullState ? teamServicePullState.state : 0,
-            updated: teamServicePullState ? teamServicePullState.updatedAt : null
+            updated: teamServicePullState ? teamServicePullState.updatedAt : null,
+            message: teamServicePullState ? teamServicePullState.message : null
           }
         }
       }
