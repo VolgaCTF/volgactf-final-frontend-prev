@@ -15,6 +15,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { Tab, Tabs } from 'material-ui/Tabs'
 import Paper from 'material-ui/Paper'
 
+import notificationManager from '../utils/notification-manager'
+
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: Customize.primary1Color,
@@ -35,6 +37,14 @@ class App extends React.Component {
 
   onNavigateMain () {
     this.props.router.push('/')
+  }
+
+  componentDidMount () {
+    notificationManager.bind()
+  }
+
+  componentWillUnmount () {
+    notificationManager.unbind()
   }
 
   render () {

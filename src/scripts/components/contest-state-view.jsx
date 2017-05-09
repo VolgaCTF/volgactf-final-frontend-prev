@@ -63,12 +63,12 @@ export default class ContestStateView extends React.Component {
         style.backgroundColor = brown50
         break
       case 4:
-        text = 'Contest will be completed soon'
+        text = 'Contest will finish soon'
         style.color = deepOrange500
         style.backgroundColor = deepOrange50
         break
       case 5:
-        text = 'Contest completed'
+        text = 'Contest finished'
         style.color = red600
         style.backgroundColor = red50
         break

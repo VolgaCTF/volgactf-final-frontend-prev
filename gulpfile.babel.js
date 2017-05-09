@@ -31,6 +31,10 @@ if (Customize.contestLogo && Customize.contestLogo.src) {
   paths.images.push(Customize.contestLogo.src)
 }
 
+if (Customize.contestNotifyLogo && Customize.contestNotifyLogo.src) {
+  paths.images.push(Customize.contestNotifyLogo.src)
+}
+
 if (Customize.extraImages) {
   Array.prototype.push.apply(paths.images, Customize.extraImages)
 }
