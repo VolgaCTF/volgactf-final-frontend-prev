@@ -140,7 +140,7 @@ class App extends React.Component {
                 {
                   (() => {
                     if (logo && logo.dist && logo.style) {
-                      return <img src={logo.dist} style={logo.style} />
+                      return <a style={{cursor: 'pointer'}}><img onTouchTap={this.onNavigateMain} src={logo.dist} style={logo.style} /></a>
                     } else {
                       return null
                     }
