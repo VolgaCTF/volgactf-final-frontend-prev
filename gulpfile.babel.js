@@ -43,22 +43,22 @@ function isProduction () {
   return process.env['NODE_ENV'] === 'production'
 }
 
-gulp.task('clean_html', (callback) => {
-  return del(['build/html/*'], callback)
+gulp.task('clean_html', function () {
+  return del(['build/html/*'])
 })
 
-gulp.task('html', ['clean_html'], () => {
+gulp.task('html', gulp.series('clean_html', function () {
   return gulp.src(paths.html)
   .pipe(mustache({title: Customize.contestTitle}))
   .pipe(gulpIf(isProduction, minifyHTML()))
   .pipe(gulp.dest('build/html'))
+}))
+
+gulp.task('clean_scripts', function () {
+  return del(['build/assets/js/*.js'])
 })
 
-gulp.task('clean_scripts', (callback) => {
-  return del(['build/assets/js/*.js'], callback)
-})
-
-gulp.task('scripts', ['clean_scripts'], () => {
+gulp.task('scripts', gulp.series('clean_scripts', function () {
   return browserify({
     entries: paths.scripts,
     extensions: ['.jsx'],
@@ -70,27 +70,33 @@ gulp.task('scripts', ['clean_scripts'], () => {
   .pipe(buffer())
   .pipe(gulpIf(isProduction, uglify()))
   .pipe(gulp.dest('build/assets/js'))
+}))
+
+gulp.task('clean_styles', function () {
+  return del(['build/assets/css/*.css'])
 })
 
-gulp.task('clean_styles', (callback) => {
-  return del(['build/assets/css/*.css'], callback)
-})
-
-gulp.task('styles', ['clean_styles'], () => {
+gulp.task('styles', gulp.series('clean_styles', function () {
   return gulp.src(paths.styles)
   .pipe(concat('app.css'))
   .pipe(gulpIf(isProduction, minifyCSS()))
   .pipe(gulp.dest('build/assets/css'))
+}))
+
+gulp.task('clean_images', function () {
+  return del(['build/assets/images/*'])
 })
 
-gulp.task('clean_images', (callback) => {
-  return del(['build/assets/images/*'], callback)
-})
-
-gulp.task('images', ['clean_images'], () => {
+gulp.task('images', gulp.series('clean_images', function (done) {
+  if (paths.images.length === 0) {
+    done()
+    return
+  }
   return gulp
   .src(paths.images)
   .pipe(gulp.dest('build/assets/images'))
-})
+}))
 
-gulp.task('default', ['html', 'scripts', 'styles', 'images'])
+gulp.task('default', gulp.series('html', 'scripts', 'styles', 'images', function (done) {
+  done()
+}))
