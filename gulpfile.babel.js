@@ -44,7 +44,7 @@ function isProduction () {
 }
 
 gulp.task('clean_html', function () {
-  return del(['build/html/*'])
+  return del(['build/html/*.html'])
 })
 
 gulp.task('html', gulp.series('clean_html', function () {
