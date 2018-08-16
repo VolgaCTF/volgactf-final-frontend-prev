@@ -15,14 +15,14 @@ export default class ScoreTableRowView extends React.Component {
         return <ScoreTablePositionCellView key={ndx} value={value} />
       } else if (column.lastIndexOf('#service_') === 0) {
         return <ScoreTableServiceStateCellView key={ndx} value={value} />
-      } else if (column === 'totalRelative') {
+      } else if (column === 'totalPoints') {
         return <ScoreTableTotalScoreCellView key={ndx} value={value} lastAttack={this.props.data.lastAttack} muted={this.props.muted} />
-      } else if (column === 'attack') {
-        return <ScoreTableScoreCellView key={ndx} absoluteValue={this.props.data.attackPoints} relativeValue={this.props.data.attackRelative} muted={this.props.muted} />
-      } else if (column === 'availability') {
-        return <ScoreTableScoreCellView key={ndx} absoluteValue={this.props.data.availabilityPoints} relativeValue={this.props.data.availabilityRelative} muted={this.props.muted} />
-      } else if (column === 'defence') {
-        return <ScoreTableScoreCellView key={ndx} absoluteValue={this.props.data.defencePoints} relativeValue={this.props.data.defenceRelative} muted={this.props.muted} />
+      } else if (column === 'attackPoints') {
+        return <ScoreTableScoreCellView key={ndx} value={value} muted={this.props.muted} />
+      } else if (column === 'availabilityPoints') {
+        return <ScoreTableScoreCellView key={ndx} value={value} muted={this.props.muted} />
+      } else if (column === 'defencePoints') {
+        return <ScoreTableScoreCellView key={ndx} value={value} muted={this.props.muted} />
       } else if (column === 'team') {
         return <ScoreTableTeamCellView key={ndx} value={value} marked={this.props.identity.isTeam() && this.props.identity.getId() === this.props.data.id} guest={this.props.data.guest} teamId={this.props.data.id} />
       }

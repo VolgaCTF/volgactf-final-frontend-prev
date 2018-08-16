@@ -75,10 +75,10 @@ export default class ScoreboardView extends React.Component {
     let order = [
       'rank',
       'team',
-      'totalRelative',
-      'attack',
-      'availability',
-      'defence'
+      'totalPoints',
+      'attackPoints',
+      'availabilityPoints',
+      'defencePoints'
     ]
 
     let headers = {
@@ -88,16 +88,16 @@ export default class ScoreboardView extends React.Component {
       team: {
         title: 'Team'
       },
-      totalRelative: {
+      totalPoints: {
         title: 'Score'
       },
-      attack: {
+      attackPoints: {
         title: 'Attack'
       },
-      availability: {
+      availabilityPoints: {
         title: 'Availability'
       },
-      defence: {
+      defencePoints: {
         title: 'Defence'
       }
     }
@@ -123,13 +123,10 @@ export default class ScoreboardView extends React.Component {
       let row = {
         id: team.id,
         team: team.name,
-        totalRelative: position.totalRelative,
+        totalPoints: position.totalPoints,
         attackPoints: position.attackPoints,
         availabilityPoints: position.availabilityPoints,
         defencePoints: position.defencePoints,
-        attackRelative: position.attackRelative,
-        availabilityRelative: position.availabilityRelative,
-        defenceRelative: position.defenceRelative,
         lastAttack: position.lastAttack,
         guest: team.guest
       }
