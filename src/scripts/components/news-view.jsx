@@ -59,7 +59,7 @@ export default class NewsView extends React.Component {
       )
     }
 
-    let title = `${Customize.contestTitle} :: News`
+    let title = `${Customize.competitionTitle} :: News`
 
     return (
       <DocumentTitle title={title}>

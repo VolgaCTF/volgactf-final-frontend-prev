@@ -1,24 +1,24 @@
 import React from 'react'
 import { blueGrey50, blueGrey600 } from 'material-ui/styles/colors'
 
-import ContestRoundStore from '../stores/contest-round-store'
-import ContestRoundActions from '../actions/contest-round-actions'
+import CompetitionRoundStore from '../stores/competition-round-store'
+import CompetitionRoundActions from '../actions/competition-round-actions'
 
-export default class ContestRoundView extends React.Component {
+export default class CompetitionRoundView extends React.Component {
   constructor (props) {
     super(props)
-    this.state = ContestRoundStore.getState()
+    this.state = CompetitionRoundStore.getState()
 
     this.onUpdate = this.onUpdate.bind(this)
   }
 
   componentDidMount () {
-    ContestRoundStore.listen(this.onUpdate)
-    ContestRoundActions.fetch()
+    CompetitionRoundStore.listen(this.onUpdate)
+    CompetitionRoundActions.fetch()
   }
 
   componentWillUnmount () {
-    ContestRoundStore.unlisten(this.onUpdate)
+    CompetitionRoundStore.unlisten(this.onUpdate)
   }
 
   onUpdate (state) {
@@ -31,7 +31,7 @@ export default class ContestRoundView extends React.Component {
     }
 
     if (this.state.err) {
-      return <span>Failed to fetch contest round</span>
+      return <span>Failed to fetch competition round</span>
     }
 
     if (this.state.model.value == null) {

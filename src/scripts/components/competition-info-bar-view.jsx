@@ -3,11 +3,11 @@ import React from 'react'
 import Paper from 'material-ui/Paper'
 import Spacing from 'material-ui/styles/spacing'
 
-import ContestRoundView from './contest-round-view'
-import ContestStateView from './contest-state-view'
+import CompetitionRoundView from './competition-round-view'
+import CompetitionStageView from './competition-stage-view'
 import StreamStatusView from './stream-status-view'
 
-export default class ContestInfoBarView extends React.Component {
+export default class CompetitionInfoBarView extends React.Component {
   render () {
     let style = {
       paddingTop: '15px',
@@ -19,8 +19,8 @@ export default class ContestInfoBarView extends React.Component {
 
     return (
       <Paper style={style}>
-        <ContestRoundView />
-        <ContestStateView />
+        <CompetitionRoundView />
+        <CompetitionStageView />
         <StreamStatusView />
       </Paper>
     )

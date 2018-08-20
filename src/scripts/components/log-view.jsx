@@ -14,26 +14,26 @@ export default class LogView extends React.Component {
             status = 'initial'
             break
           case 1:
-            status = 'await_start'
+            status = 'starting'
             break
           case 2:
-            status = 'running'
+            status = 'started'
             break
           case 3:
             status = 'paused'
             break
           case 4:
-            status = 'await_complete'
+            status = 'finishing'
             break
           case 5:
-            status = 'completed'
+            status = 'finished'
             break
           default:
             status = 'n/a'
             break
         }
 
-        text = <span style={{color: blue900}}>Contest state changed to <code style={{color: cyan900}}>{status}</code></span>
+        text = <span style={{color: blue900}}>Competition stage changed to <code style={{color: cyan900}}>{status}</code></span>
         break
       case 2:
         text = <span style={{color: purple900}}>Round <code style={{color: red900}}>{this.props.params.value}</code> has started!</span>

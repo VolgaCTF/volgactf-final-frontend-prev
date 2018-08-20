@@ -14,7 +14,7 @@ export default class IndexView extends React.Component {
       paddingRight: Spacing.desktopGutter
     }
 
-    let title = `${Customize.contestTitle} :: Main`
+    let title = `${Customize.competitionTitle} :: Main`
     let md = new MarkdownRenderer()
     let divStyle = {
       lineHeight: '2em'

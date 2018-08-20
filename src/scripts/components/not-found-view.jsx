@@ -42,7 +42,7 @@ class NotFoundView extends React.Component {
       links.push(<li key={3}><a href='/logs' onTouchTap={this.getOnNavigate('/logs')}>Logs</a></li>)
     }
 
-    let title = `${Customize.contestTitle} :: Not Found`
+    let title = `${Customize.competitionTitle} :: Not Found`
 
     return (
       <DocumentTitle title={title}>

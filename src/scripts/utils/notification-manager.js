@@ -2,20 +2,12 @@ import eventManager from './event-manager'
 
 import Customize from '../../../customize'
 import PostModel from '../models/post-model'
-import ContestStateModel from '../models/contest-state-model'
+import CompetitionStageModel from '../models/competition-stage-model'
 
 class NotificationManager {
   constructor () {
-    if (this.enabled) {
-      this.eventSource = new window.EventSource('/stream/')
-    }
-
     this.notifyAddPost = this.notifyAddPost.bind(this)
-    this.notifyUpdateContestState = this.notifyUpdateContestState.bind(this)
-  }
-
-  get enabled () {
-    return window.EventSource != null
+    this.notifyUpdateCompetitionStage = this.notifyUpdateCompetitionStage.bind(this)
   }
 
   bind () {
@@ -27,17 +19,13 @@ class NotificationManager {
       }
     }
 
-    if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('posts/add', this.notifyAddPost)
-      eventManager.eventSource.addEventListener('contest/state', this.notifyUpdateContestState)
-    }
+    eventManager.on('posts/add', this.notifyAddPost)
+    eventManager.on('competition/stage', this.notifyUpdateCompetitionStage)
   }
 
   unbind () {
-    if (eventManager.enabled) {
-      eventManager.eventSource.removeEventListener('posts/add', this.notifyAddPost)
-      eventManager.eventSource.removeEventListener('contest/state', this.notifyUpdateContestState)
-    }
+    eventManager.off('posts/add', this.notifyAddPost)
+    eventManager.off('competition/stage', this.notifyUpdateCompetitionStage)
   }
 
   presentNotification (title, options) {
@@ -60,8 +48,8 @@ class NotificationManager {
 
   getDefaultOptions () {
     let options = {}
-    if (Customize.contestNotifyLogo && Customize.contestNotifyLogo.dist) {
-      options['icon'] = Customize.contestNotifyLogo.dist
+    if (Customize.competitionNotifyLogo && Customize.competitionNotifyLogo.dist) {
+      options['icon'] = Customize.competitionNotifyLogo.dist
     }
     return options
   }
@@ -73,24 +61,24 @@ class NotificationManager {
     this.sendNotification('News update', options)
   }
 
-  notifyUpdateContestState (e) {
-    const contestState = new ContestStateModel(JSON.parse(e.data))
+  notifyUpdateCompetitionStage (e) {
+    const competitionStage = new CompetitionStageModel(JSON.parse(e.data))
     let body = null
-    switch (contestState.value) {
+    switch (competitionStage.value) {
       case 1:
-        body = 'Contest will start shortly...'
+        body = 'Competition will start soon...'
         break
       case 2:
-        body = 'Contest has started!'
+        body = 'Competition has started!'
         break
       case 3:
-        body = 'Contest has paused!'
+        body = 'Competition is paused!'
         break
       case 4:
-        body = 'Contest will finish in a couple of minutes...'
+        body = 'Competition will finish soon...'
         break
       case 5:
-        body = 'Contest has finished!'
+        body = 'Competition has finished!'
         break
       default:
         body = null
@@ -100,7 +88,7 @@ class NotificationManager {
     if (body !== null) {
       let options = this.getDefaultOptions()
       options['body'] = body
-      this.sendNotification('Contest update', options)
+      this.sendNotification('Competition update', options)
     }
   }
 }

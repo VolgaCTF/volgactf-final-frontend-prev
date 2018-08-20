@@ -2,12 +2,12 @@ import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
 import alt from '../utils/alt'
-import ContestStateModel from '../models/contest-state-model'
+import CompetitionStageModel from '../models/competition-stage-model'
 
-class ContestStateActions {
+class CompetitionStageActions {
   static fetchPromise () {
     return new Promise((resolve, reject) => {
-      fetch('/api/contest/state')
+      fetch('/api/competition/stage')
         .then((response) => {
           if (response.status >= 200 && response.status < 300) {
             return response.json()
@@ -18,7 +18,7 @@ class ContestStateActions {
           }
         })
         .then((data) => {
-          resolve(new ContestStateModel(data))
+          resolve(new CompetitionStageModel(data))
         })
         .catch((err) => {
           reject(err)
@@ -26,18 +26,18 @@ class ContestStateActions {
     })
   }
 
-  update (contestState) {
-    return contestState
+  update (competitionStage) {
+    return competitionStage
   }
 
   fetch () {
     return (dispatch) => {
       dispatch()
 
-      ContestStateActions
+      CompetitionStageActions
       .fetchPromise()
-      .then((contestState) => {
-        this.update(contestState)
+      .then((competitionStage) => {
+        this.update(competitionStage)
       })
       .catch((err) => {
         this.failed(err)
@@ -50,4 +50,4 @@ class ContestStateActions {
   }
 }
 
-export default alt.createActions(ContestStateActions)
+export default alt.createActions(CompetitionStageActions)

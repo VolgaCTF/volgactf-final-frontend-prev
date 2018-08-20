@@ -2,12 +2,12 @@ import 'whatwg-fetch'
 // import { Promise } from 'es6-promise'
 
 import alt from '../utils/alt'
-import ContestRoundModel from '../models/contest-round-model'
+import CompetitionRoundModel from '../models/competition-round-model'
 
-class ContestRoundActions {
+class CompetitionRoundActions {
   static fetchPromise () {
     return new Promise((resolve, reject) => {
-      fetch('/api/contest/round')
+      fetch('/api/competition/round')
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           return response.json()
@@ -18,7 +18,7 @@ class ContestRoundActions {
         }
       })
       .then((data) => {
-        resolve(new ContestRoundModel(data))
+        resolve(new CompetitionRoundModel(data))
       })
       .catch((err) => {
         reject(err)
@@ -26,18 +26,18 @@ class ContestRoundActions {
     })
   }
 
-  update (contestRound) {
-    return contestRound
+  update (competitionRound) {
+    return competitionRound
   }
 
   fetch () {
     return (dispatch) => {
       dispatch()
 
-      ContestRoundActions
+      CompetitionRoundActions
       .fetchPromise()
-      .then((contestRound) => {
-        this.update(contestRound)
+      .then((competitionRound) => {
+        this.update(competitionRound)
       })
       .catch((err) => {
         this.failed(err)
@@ -50,4 +50,4 @@ class ContestRoundActions {
   }
 }
 
-export default alt.createActions(ContestRoundActions)
+export default alt.createActions(CompetitionRoundActions)

@@ -12,13 +12,13 @@ export default class StreamStatusView extends React.Component {
 
     this.update = () => {
       this.setState({
-        readyState: eventManager.enabled ? eventManager.eventSource.readyState : -1
+        readyState: eventManager.readyState
       })
     }
   }
 
   componentDidMount () {
-    this.interval = window.setInterval(this.update, 2000)
+    this.interval = window.setInterval(this.update, 1000)
     this.update()
   }
 

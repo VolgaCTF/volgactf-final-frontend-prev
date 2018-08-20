@@ -27,12 +27,12 @@ var paths = {
   ]
 }
 
-if (Customize.contestLogo && Customize.contestLogo.src) {
-  paths.images.push(Customize.contestLogo.src)
+if (Customize.competitionLogo && Customize.competitionLogo.src) {
+  paths.images.push(Customize.competitionLogo.src)
 }
 
-if (Customize.contestNotifyLogo && Customize.contestNotifyLogo.src) {
-  paths.images.push(Customize.contestNotifyLogo.src)
+if (Customize.competitionNotifyLogo && Customize.competitionNotifyLogo.src) {
+  paths.images.push(Customize.competitionNotifyLogo.src)
 }
 
 if (Customize.extraImages) {
@@ -49,7 +49,7 @@ gulp.task('clean_html', function () {
 
 gulp.task('html', gulp.series('clean_html', function () {
   return gulp.src(paths.html)
-  .pipe(mustache({title: Customize.contestTitle}))
+  .pipe(mustache({title: Customize.competitionTitle}))
   .pipe(gulpIf(isProduction, minifyHTML()))
   .pipe(gulp.dest('build/html'))
 }))

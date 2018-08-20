@@ -19,12 +19,10 @@ class TeamServicePushStateStore {
       handleUpdateSingle: TeamServicePushStateActions.UPDATE_SINGLE
     })
 
-    if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('team/service/push-state', (e) => {
-        let data = JSON.parse(e.data)
-        TeamServicePushStateActions.updateSingle(new TeamServicePushStateModel(data))
-      })
-    }
+    eventManager.on('team/service/push-state', (e) => {
+      let data = JSON.parse(e.data)
+      TeamServicePushStateActions.updateSingle(new TeamServicePushStateModel(data))
+    })
   }
 
   handleUpdate (teamServicePushStates) {

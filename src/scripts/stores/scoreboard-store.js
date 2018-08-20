@@ -17,12 +17,10 @@ class ScoreboardStore {
       handleFailed: ScoreboardActions.FAILED
     })
 
-    if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('scoreboard', (e) => {
-        let data = JSON.parse(e.data)
-        ScoreboardActions.update(new ScoreboardModel(data))
-      })
-    }
+    eventManager.on('scoreboard', (e) => {
+      let data = JSON.parse(e.data)
+      ScoreboardActions.update(new ScoreboardModel(data))
+    })
   }
 
   handleUpdate (scoreboard) {

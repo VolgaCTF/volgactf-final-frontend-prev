@@ -6,7 +6,7 @@ import Spacing from 'material-ui/styles/spacing'
 import Typography from 'material-ui/styles/typography'
 import { grey200, grey400, grey800 } from 'material-ui/styles/colors'
 
-import ContestInfoBarView from './contest-info-bar-view'
+import CompetitionInfoBarView from './competition-info-bar-view'
 
 import Customize from '../../../customize'
 
@@ -16,6 +16,7 @@ import { Tab, Tabs } from 'material-ui/Tabs'
 import Paper from 'material-ui/Paper'
 
 import notificationManager from '../utils/notification-manager'
+import eventManager from '../utils/event-manager'
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -40,11 +41,13 @@ class App extends React.Component {
   }
 
   componentDidMount () {
+    eventManager.connect()
     notificationManager.bind()
   }
 
   componentWillUnmount () {
     notificationManager.unbind()
+    eventManager.disconnect()
   }
 
   render () {
@@ -128,8 +131,8 @@ class App extends React.Component {
       textDecoration: 'none'
     }
 
-    let title = Customize.contestTitle
-    let logo = Customize.contestLogo
+    let title = Customize.competitionTitle
+    let logo = Customize.competitionLogo
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
@@ -155,7 +158,7 @@ class App extends React.Component {
               </div>
             </Paper>
 
-            <ContestInfoBarView />
+            <CompetitionInfoBarView />
             <main>
               {React.cloneElement(this.props.children, { identity: this.props.route.identity })}
             </main>

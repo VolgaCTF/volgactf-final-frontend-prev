@@ -87,7 +87,7 @@ export default class LogsView extends React.Component {
       paddingRight: Spacing.desktopGutter
     }
 
-    let title = `${Customize.contestTitle} :: Logs`
+    let title = `${Customize.competitionTitle} :: Logs`
 
     return (
       <DocumentTitle title={title}>

@@ -219,7 +219,7 @@ export default class ScoreboardView extends React.Component {
       paddingRight: Spacing.desktopGutter
     }
 
-    let title = `${Customize.contestTitle} :: Scoreboard`
+    let title = `${Customize.competitionTitle} :: Scoreboard`
 
     return (
       <DocumentTitle title={title}>

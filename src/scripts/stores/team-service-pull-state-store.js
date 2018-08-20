@@ -19,12 +19,10 @@ class TeamServicePullStateStore {
       handleUpdateSingle: TeamServicePullStateActions.UPDATE_SINGLE
     })
 
-    if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('team/service/pull-state', (e) => {
-        let data = JSON.parse(e.data)
-        TeamServicePullStateActions.updateSingle(new TeamServicePullStateModel(data))
-      })
-    }
+    eventManager.on('team/service/pull-state', (e) => {
+      let data = JSON.parse(e.data)
+      TeamServicePullStateActions.updateSingle(new TeamServicePullStateModel(data))
+    })
   }
 
   handleUpdate (teamServicePullStates) {

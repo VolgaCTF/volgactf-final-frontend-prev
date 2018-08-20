@@ -24,22 +24,20 @@ class NewsStore {
       handleEdit: NewsActions.EDIT
     })
 
-    if (eventManager.enabled) {
-      eventManager.eventSource.addEventListener('posts/add', (e) => {
-        let data = JSON.parse(e.data)
-        NewsActions.onAdd(new PostModel(data))
-      })
+    eventManager.on('posts/add', (e) => {
+      let data = JSON.parse(e.data)
+      NewsActions.onAdd(new PostModel(data))
+    })
 
-      eventManager.eventSource.addEventListener('posts/remove', (e) => {
-        let data = JSON.parse(e.data)
-        NewsActions.onRemove(data.id)
-      })
+    eventManager.on('posts/remove', (e) => {
+      let data = JSON.parse(e.data)
+      NewsActions.onRemove(data.id)
+    })
 
-      eventManager.eventSource.addEventListener('posts/edit', (e) => {
-        let data = JSON.parse(e.data)
-        NewsActions.onEdit(new PostModel(data))
-      })
-    }
+    eventManager.on('posts/edit', (e) => {
+      let data = JSON.parse(e.data)
+      NewsActions.onEdit(new PostModel(data))
+    })
   }
 
   handleUpdate (posts) {
