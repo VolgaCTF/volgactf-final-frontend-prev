@@ -1,5 +1,5 @@
 import React from 'react'
-import { blue50, blue900, grey100, grey600, green50, green700, brown50, brown600, deepOrange50, deepOrange500, red50, red600 } from 'material-ui/styles/colors'
+import { blue50, blue900, grey100, grey600, green50, green700, brown50, brown600, deepOrange50, deepOrange500, red50, red600, yellow800, yellow50 } from 'material-ui/styles/colors'
 
 import CompetitionStageStore from '../stores/competition-stage-store'
 import CompetitionStageActions from '../actions/competition-stage-actions'
@@ -60,16 +60,21 @@ export default class CompetitionStageView extends React.Component {
         style.backgroundColor = green50
         break
       case 3:
+        text = 'Competition: pausing'
+        style.color = yellow800
+        style.backgroundColor = yellow50
+        break
+      case 4:
         text = 'Competition: paused'
         style.color = brown600
         style.backgroundColor = brown50
         break
-      case 4:
+      case 5:
         text = 'Competition: finishing'
         style.color = deepOrange500
         style.backgroundColor = deepOrange50
         break
-      case 5:
+      case 6:
         text = 'Competition: finished'
         style.color = red600
         style.backgroundColor = red50

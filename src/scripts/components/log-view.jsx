@@ -20,12 +20,15 @@ export default class LogView extends React.Component {
             status = 'started'
             break
           case 3:
-            status = 'paused'
+            status = 'pausing'
             break
           case 4:
-            status = 'finishing'
+            status = 'paused'
             break
           case 5:
+            status = 'finishing'
+            break
+          case 6:
             status = 'finished'
             break
           default:

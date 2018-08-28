@@ -72,12 +72,15 @@ class NotificationManager {
         body = 'Competition has started!'
         break
       case 3:
-        body = 'Competition is paused!'
+        body = 'Competition will pause soon...'
         break
       case 4:
-        body = 'Competition will finish soon...'
+        body = 'Competition is paused!'
         break
       case 5:
+        body = 'Competition will finish soon...'
+        break
+      case 6:
         body = 'Competition has finished!'
         break
       default:
