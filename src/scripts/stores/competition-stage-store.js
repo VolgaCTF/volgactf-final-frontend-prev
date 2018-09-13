@@ -8,7 +8,7 @@ class CompetitionStageStore {
     this.state = {
       loading: true,
       err: null,
-      models: null
+      model: null
     }
 
     this.bindListeners({

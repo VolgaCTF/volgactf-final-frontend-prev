@@ -21,6 +21,12 @@ import TeamServicePullStateStore from '../stores/team-service-pull-state-store'
 import ScoreboardActions from '../actions/scoreboard-actions'
 import ScoreboardStore from '../stores/scoreboard-store'
 
+import CompetitionRoundStore from '../stores/competition-round-store'
+import CompetitionRoundActions from '../actions/competition-round-actions'
+
+import CompetitionStageStore from '../stores/competition-stage-store'
+import CompetitionStageActions from '../actions/competition-stage-actions'
+
 import Customize from '../../../customize'
 
 export default class ScoreboardView extends React.Component {
@@ -31,7 +37,9 @@ export default class ScoreboardView extends React.Component {
       services: ServiceStore.getState(),
       teamServicePushStates: TeamServicePushStateStore.getState(),
       teamServicePullStates: TeamServicePullStateStore.getState(),
-      scoreboard: ScoreboardStore.getState()
+      scoreboard: ScoreboardStore.getState(),
+      round: CompetitionRoundStore.getState(),
+      stage: CompetitionStageStore.getState()
     }
 
     this.onUpdateTeams = this.onUpdateTeams.bind(this)
@@ -39,6 +47,8 @@ export default class ScoreboardView extends React.Component {
     this.onUpdateTeamServicePushStates = this.onUpdateTeamServicePushStates.bind(this)
     this.onUpdateTeamServicePullStates = this.onUpdateTeamServicePullStates.bind(this)
     this.onUpdateScoreboard = this.onUpdateScoreboard.bind(this)
+    this.onUpdateRound = this.onUpdateRound.bind(this)
+    this.onUpdateStage = this.onUpdateStage.bind(this)
   }
 
   onUpdateTeams (teams) {
@@ -68,6 +78,18 @@ export default class ScoreboardView extends React.Component {
   onUpdateScoreboard (scoreboard) {
     this.setState({
       scoreboard: scoreboard
+    })
+  }
+
+  onUpdateRound (round) {
+    this.setState({
+      round: round
+    })
+  }
+
+  onUpdateStage (stage) {
+    this.setState({
+      stage: stage
     })
   }
 
@@ -102,12 +124,22 @@ export default class ScoreboardView extends React.Component {
       }
     }
 
-    for (let service of this.state.services.collection) {
-      let serviceId = `#service_${service.id}`
+    const competitionStage = this.state.stage.model
+    const competitionRound = this.state.round.model
+
+    for (const service of this.state.services.collection) {
+      const serviceId = `#service_${service.id}`
       headers[serviceId] = {
-        title: service.name,
+        service: true,
+        name: service.name,
         style: {
           textAlign: 'center'
+        },
+        meta: {
+          attackPriority: service.attackPriority,
+          awardDefenceAfter: service.awardDefenceAfter,
+          enableIn: service.enableIn,
+          disableIn: service.disableIn
         }
       }
       order.push(serviceId)
@@ -132,23 +164,29 @@ export default class ScoreboardView extends React.Component {
       }
 
       for (let service of this.state.services.collection) {
-        let serviceId = `#service_${service.id}`
-        let teamServicePushState = this.state.teamServicePushStates.collection.find((state) => {
+        const serviceId = `#service_${service.id}`
+        const teamServicePushState = this.state.teamServicePushStates.collection.find((state) => {
           return state.teamId === team.id && state.serviceId === service.id
         })
-        let teamServicePullState = this.state.teamServicePullStates.collection.find((state) => {
+        const teamServicePullState = this.state.teamServicePullStates.collection.find((state) => {
           return state.teamId === team.id && state.serviceId === service.id
         })
+
+        const pushEnabled = competitionStage.isStarted() && ((service.disableIn === null) ? true : competitionRound.value <= service.disableIn)
+        const pullEnabled = competitionStage.isStarted() || competitionStage.isPausing() || competitionStage.isFinishing()
+
         row[serviceId] = {
           push: {
             value: teamServicePushState ? teamServicePushState.state : 0,
             updated: teamServicePushState ? teamServicePushState.updatedAt : null,
-            message: teamServicePushState ? teamServicePushState.message : null
+            message: teamServicePushState ? teamServicePushState.message : null,
+            dim: !pushEnabled
           },
           pull: {
             value: teamServicePullState ? teamServicePullState.state : 0,
             updated: teamServicePullState ? teamServicePullState.updatedAt : null,
-            message: teamServicePullState ? teamServicePullState.message : null
+            message: teamServicePullState ? teamServicePullState.message : null,
+            dim: !pullEnabled
           }
         }
       }
@@ -175,12 +213,16 @@ export default class ScoreboardView extends React.Component {
     TeamServicePushStateStore.listen(this.onUpdateTeamServicePushStates)
     TeamServicePullStateStore.listen(this.onUpdateTeamServicePullStates)
     ScoreboardStore.listen(this.onUpdateScoreboard)
+    CompetitionRoundStore.listen(this.onUpdateRound)
+    CompetitionStageStore.listen(this.onUpdateStage)
 
     TeamActions.fetch()
     ServiceActions.fetch()
     TeamServicePushStateActions.fetch()
     TeamServicePullStateActions.fetch()
     ScoreboardActions.fetch()
+    CompetitionRoundActions.fetch()
+    CompetitionStageActions.fetch()
   }
 
   componentWillUnmount () {
@@ -189,6 +231,8 @@ export default class ScoreboardView extends React.Component {
     TeamServicePushStateStore.unlisten(this.onUpdateTeamServicePushStates)
     TeamServicePullStateStore.unlisten(this.onUpdateTeamServicePullStates)
     ScoreboardStore.unlisten(this.onUpdateScoreboard)
+    CompetitionRoundStore.unlisten(this.onUpdateRound)
+    CompetitionStageStore.unlisten(this.onUpdateStage)
   }
 
   isLoading () {
@@ -197,7 +241,9 @@ export default class ScoreboardView extends React.Component {
       this.state.services.loading ||
       this.state.teamServicePushStates.loading ||
       this.state.teamServicePullStates.loading ||
-      this.state.scoreboard.loading
+      this.state.scoreboard.loading ||
+      this.state.round.loading ||
+      this.state.stage.loading
     )
   }
 
@@ -207,7 +253,9 @@ export default class ScoreboardView extends React.Component {
       this.state.services.err ||
       this.state.teamServicePushStates.err ||
       this.state.teamServicePullStates.err ||
-      this.state.scoreboard.err
+      this.state.scoreboard.err ||
+      this.state.round.err ||
+      this.state.stage.err
     )
   }
 

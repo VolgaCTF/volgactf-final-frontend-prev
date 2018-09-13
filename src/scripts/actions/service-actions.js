@@ -34,6 +34,18 @@ class ServiceActions {
     return services
   }
 
+  onEnable (service) {
+    return service
+  }
+
+  onDisable (serviceId) {
+    return serviceId
+  }
+
+  onModify (service) {
+    return service
+  }
+
   fetch () {
     return (dispatch) => {
       dispatch()

@@ -20,17 +20,18 @@ export default class ScoreTableServiceStateCellView extends React.Component {
     }
   }
 
-  getStateStyle (status) {
+  getStateStyle (data) {
     let style = {
       width: '50%',
       padding: '1px',
       fontSize: '0.7em',
       textAlign: 'center',
       fontWeight: 'bold',
-      fontVariant: 'small-caps'
+      fontVariant: 'small-caps',
+      opacity: data.dim ? 0.5 : 1
     }
 
-    switch (status) {
+    switch (data.value) {
       case 1:
         style.color = green700
         style.backgroundColor = green50
@@ -60,17 +61,18 @@ export default class ScoreTableServiceStateCellView extends React.Component {
     return style
   }
 
-  getLabelStyle (status) {
+  getLabelStyle (data) {
     let style = {
       width: '50%',
       padding: '1px',
       fontSize: '0.6em',
       textAlign: 'center',
       fontWeight: 'bold',
-      fontVariant: 'small-caps'
+      fontVariant: 'small-caps',
+      opacity: data.dim ? 0.5 : 1
     }
 
-    switch (status) {
+    switch (data.value) {
       case 1:
         style.color = green700
         style.backgroundColor = green50
@@ -111,6 +113,9 @@ export default class ScoreTableServiceStateCellView extends React.Component {
     let pushUpdated = this.props.value.push.updated ? `Updated at ${moment(this.props.value.push.updated).format('HH:mm:ss')}` : 'Updated: never'
     let pullUpdated = this.props.value.pull.updated ? `Updated at ${moment(this.props.value.pull.updated).format('HH:mm:ss')}` : 'Updated: never'
 
+    const pushDim = this.props.value.push.dim
+    const pullDim = this.props.value
+
     if (this.props.value.push.message) {
       pushUpdated += `\nMessage from the service checker:\n${this.props.value.push.message}`
     }
@@ -124,20 +129,20 @@ export default class ScoreTableServiceStateCellView extends React.Component {
         <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '4px 0' }}>
           <thead>
             <tr>
-              <td style={this.getLabelStyle(pushValue)} title={pushUpdated}>
+              <td style={this.getLabelStyle(this.props.value.push)} title={pushUpdated}>
                 {`push${this.props.value.push.updated ? moment(this.props.value.push.updated).format(' HH:mm:ss') : ''}`}
               </td>
-              <td style={this.getLabelStyle(pullValue)} title={pullUpdated}>
+              <td style={this.getLabelStyle(this.props.value.pull)} title={pullUpdated}>
                 {`pull${this.props.value.pull.updated ? moment(this.props.value.pull.updated).format(' HH:mm:ss') : ''}`}
               </td>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={this.getStateStyle(pushValue)} title={pushUpdated}>
+              <td style={this.getStateStyle(this.props.value.push)} title={pushUpdated}>
                 {this.getStateDescription(pushValue)}
               </td>
-              <td style={this.getStateStyle(pullValue)} title={pullUpdated}>
+              <td style={this.getStateStyle(this.props.value.pull)} title={pullUpdated}>
                 {this.getStateDescription(pullValue)}
               </td>
             </tr>

@@ -16,7 +16,6 @@ class EventManager {
   }
 
   connect () {
-    console.log('CONNECT')
     if (this.enabled) {
       this.eventSource = new window.EventSource('/stream/')
       for (let entry of this.queue) {

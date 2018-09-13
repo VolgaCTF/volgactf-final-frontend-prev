@@ -1,5 +1,7 @@
 import alt from '../utils/alt'
 import ServiceActions from '../actions/service-actions'
+import eventManager from '../utils/event-manager'
+import ServiceModel from '../models/service-model'
 import { List } from 'immutable'
 
 class ServiceStore {
@@ -12,8 +14,26 @@ class ServiceStore {
 
     this.bindListeners({
       handleUpdate: ServiceActions.UPDATE,
+      handleOnEnable: ServiceActions.ON_ENABLE,
+      handleOnDisable: ServiceActions.ON_DISABLE,
+      handleOnModify: ServiceActions.ON_MODIFY,
       handleFetch: ServiceActions.FETCH,
       handleFailed: ServiceActions.FAILED
+    })
+
+    eventManager.on('service/enable', (e) => {
+      const data = JSON.parse(e.data)
+      ServiceActions.onEnable(new ServiceModel(data))
+    })
+
+    eventManager.on('service/disable', (e) => {
+      const data = JSON.parse(e.data)
+      ServiceActions.onDisable(data.id)
+    })
+
+    eventManager.on('service/modify', (e) => {
+      const data = JSON.parse(e.data)
+      ServiceActions.onModify(new ServiceModel(data))
     })
   }
 
@@ -22,6 +42,31 @@ class ServiceStore {
       loading: false,
       err: null,
       collection: services
+    })
+  }
+
+  handleOnEnable (service) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection.push(service)
+    })
+  }
+
+  handleOnDisable (serviceId) {
+    this.setState({
+      loading: false,
+      err: null,
+      collection: this.state.collection.filter(x => x.id !== serviceId)
+    })
+  }
+
+  handleOnModify (service) {
+    const ndx = this.state.collection.findIndex(x => x.id === service.id)
+    this.setState({
+      loading: false,
+      err: null,
+      collection: (ndx === -1) ? this.state.collection.push(service) : this.state.collection.set(ndx, service)
     })
   }
 
