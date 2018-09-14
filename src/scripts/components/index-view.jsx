@@ -15,7 +15,9 @@ export default class IndexView extends React.Component {
     }
 
     let title = `${Customize.competitionTitle} :: Main`
-    let md = new MarkdownRenderer()
+    let md = new MarkdownRenderer({
+      html: true
+    })
     let divStyle = {
       lineHeight: '2em'
     }
