@@ -34,6 +34,10 @@ class TeamActions {
     return teams
   }
 
+  onModify (team) {
+    return team
+  }
+
   fetch () {
     return (dispatch) => {
       dispatch()

@@ -18,7 +18,7 @@ export default class CompetitionInfoBarView extends React.Component {
     }
 
     return (
-      <Paper style={style}>
+      <Paper zDepth={0} rounded={false} style={style}>
         <CompetitionRoundView />
         <CompetitionStageView />
         <StreamStatusView />

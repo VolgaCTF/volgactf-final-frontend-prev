@@ -3,5 +3,6 @@ export default class TeamModel {
     this.id = props.id
     this.name = props.name
     this.guest = props.guest
+    this.logoHash = props.logo_hash
   }
 }

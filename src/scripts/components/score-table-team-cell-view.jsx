@@ -1,6 +1,17 @@
 import React from 'react'
+import UploadTeamLogoDialogView from './upload-team-logo-dialog-view'
 
 export default class ScoreTableTeamCellView extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.onChangeTeamLogoDialog = this.onChangeTeamLogoDialog.bind(this)
+  }
+
+  onChangeTeamLogoDialog () {
+    this.refs.changeTeamLogoDialog.start()
+  }
+
   render () {
     let className = 'themis-team-other'
     if (this.props.marked) {
@@ -15,11 +26,31 @@ export default class ScoreTableTeamCellView extends React.Component {
       ]
     }
 
-    let pictureSource = `/api/team/pictures/${this.props.teamId}`
+    let logoSrc = `/api/team/logo/${this.props.teamId}.png`
+    if (this.props.teamLogoHash) {
+      logoSrc += `?${this.props.teamLogoHash}`
+    }
 
     return (
       <td>
-        <img className='themis-team-logo' src={pictureSource} />
+        {
+          (() => {
+            if (this.props.marked && this.props.teamLogoHash) {
+              return <UploadTeamLogoDialogView ref='changeTeamLogoDialog'/>
+            }
+            return null
+          })()
+        }
+        {
+          (() => {
+            if (this.props.marked && this.props.teamLogoHash) {
+              return <img className='themis-team-logo' style={{cursor: 'pointer'}} src={logoSrc} onTouchTap={this.onChangeTeamLogoDialog} />
+            } else {
+              return <img className='themis-team-logo' src={logoSrc} />
+            }
+          })()
+        }
+
         &nbsp;
         <span className={className}>{this.props.value}</span>
         {extras}

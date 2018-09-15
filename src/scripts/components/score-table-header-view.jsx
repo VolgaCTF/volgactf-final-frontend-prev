@@ -49,6 +49,14 @@ export default class ScoreTableHeaderView extends React.Component {
             }
           </th>
         )
+      } else if (typeof header.team != undefined && header.team) {
+        return (
+          <th key={ndx} style={style}>
+            <span style={{display: 'inline-block', width: '40px', height: '1px'}}></span>
+            &nbsp;
+            {header.title}
+          </th>
+        )
       }
       return (
         <th key={ndx} style={style}>

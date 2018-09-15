@@ -27,6 +27,8 @@ import CompetitionRoundActions from '../actions/competition-round-actions'
 import CompetitionStageStore from '../stores/competition-stage-store'
 import CompetitionStageActions from '../actions/competition-stage-actions'
 
+import TeamLogoAlertView from './team-logo-alert-view'
+
 import Customize from '../../../customize'
 
 export default class ScoreboardView extends React.Component {
@@ -108,7 +110,8 @@ export default class ScoreboardView extends React.Component {
         title: 'Rank'
       },
       team: {
-        title: 'Team'
+        title: 'Team',
+        team: true
       },
       totalPoints: {
         title: 'Score'
@@ -160,7 +163,8 @@ export default class ScoreboardView extends React.Component {
         availabilityPoints: position.availabilityPoints,
         defencePoints: position.defencePoints,
         lastAttack: position.lastAttack,
-        guest: team.guest
+        guest: team.guest,
+        logoHash: team.logoHash
       }
 
       for (let service of this.state.services.collection) {
@@ -273,6 +277,31 @@ export default class ScoreboardView extends React.Component {
       <DocumentTitle title={title}>
         <Paper zDepth={0} style={style}>
           <h2>Scoreboard</h2>
+          {
+            (() => {
+              if (this.isLoading()) {
+                return null
+              }
+
+              if (this.isError()) {
+                return null
+              }
+
+              if (!this.props.identity.isTeam()) {
+                return null
+              }
+
+              const team = this.state.teams.collection.find((team) => {
+                return this.props.identity.getId() === team.id
+              })
+
+              if (team.logoHash) {
+                return null
+              } else {
+                return <TeamLogoAlertView/>
+              }
+            })()
+          }
           {
             (() => {
               if (this.isLoading()) {
