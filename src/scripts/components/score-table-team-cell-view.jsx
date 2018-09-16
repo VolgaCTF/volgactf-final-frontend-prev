@@ -1,20 +1,29 @@
 import React from 'react'
-import UploadTeamLogoDialogView from './upload-team-logo-dialog-view'
+import { withRouter } from 'react-router'
 
-export default class ScoreTableTeamCellView extends React.Component {
+import UploadTeamLogoDialogView from './upload-team-logo-dialog-view'
+import SocialPoll from 'material-ui/svg-icons/social/poll'
+
+class ScoreTableTeamCellView extends React.Component {
   constructor (props) {
     super(props)
-
     this.onChangeTeamLogoDialog = this.onChangeTeamLogoDialog.bind(this)
+    this.onOpenTeamStats = this.onOpenTeamStats.bind(this)
   }
 
   onChangeTeamLogoDialog () {
     this.refs.changeTeamLogoDialog.start()
   }
 
+  onOpenTeamStats (e) {
+    this.props.router.push(`/team/${this.props.teamId}/stats`)
+  }
+
   render () {
     let className = 'themis-team-other'
-    if (this.props.marked) {
+    const exactTeam = this.props.identity.isTeam() && this.props.identity.getId() === this.props.teamId
+
+    if (exactTeam) {
       className = 'themis-team-marked'
     }
 
@@ -35,7 +44,7 @@ export default class ScoreTableTeamCellView extends React.Component {
       <td>
         {
           (() => {
-            if (this.props.marked && this.props.teamLogoHash) {
+            if (exactTeam && this.props.teamLogoHash) {
               return <UploadTeamLogoDialogView ref='changeTeamLogoDialog'/>
             }
             return null
@@ -43,7 +52,7 @@ export default class ScoreTableTeamCellView extends React.Component {
         }
         {
           (() => {
-            if (this.props.marked && this.props.teamLogoHash) {
+            if (exactTeam  && this.props.teamLogoHash) {
               return <img className='themis-team-logo' style={{cursor: 'pointer'}} src={logoSrc} onTouchTap={this.onChangeTeamLogoDialog} />
             } else {
               return <img className='themis-team-logo' src={logoSrc} />
@@ -54,7 +63,22 @@ export default class ScoreTableTeamCellView extends React.Component {
         &nbsp;
         <span className={className}>{this.props.value}</span>
         {extras}
+        {
+          (() => {
+            if (this.props.identity.isInternal()) {
+              const iconStyle = {
+                verticalAlign: 'middle',
+                marginLeft: '5px',
+                cursor: 'pointer'
+              }
+              return <SocialPoll style={iconStyle} onTouchTap={this.onOpenTeamStats} />
+            }
+            return null
+          })()
+        }
       </td>
     )
   }
 }
+
+export default withRouter(ScoreTableTeamCellView)

@@ -53,6 +53,9 @@ class App extends React.Component {
   render () {
     let selectedTab = 'notfound'
     let routeNames = ['/scoreboard', '/news']
+    if (this.props.route.identity.isTeam()) {
+      routeNames.push('/team/stats')
+    }
     if (this.props.route.identity.isInternal()) {
       routeNames.push('/logs')
     }
@@ -110,6 +113,10 @@ class App extends React.Component {
       <Tab style={tabStyle} key='scoreboard' label='Scoreboard' value='/scoreboard' onActive={this.onTabActivate} />,
       <Tab style={tabStyle} key='news' label='News' value='/news' onActive={this.onTabActivate} />
     ]
+
+    if (this.props.route.identity.isTeam()) {
+      tabs.push(<Tab style={tabStyle} key='team/stats' label='Stats' value='/team/stats' onActive={this.onTabActivate} />)
+    }
 
     if (this.props.route.identity.isInternal()) {
       tabs.push(<Tab style={tabStyle} key='logs' label='Logs' value='/logs' onActive={this.onTabActivate} />)

@@ -12,6 +12,7 @@ import ScoreboardView from './components/scoreboard-view'
 import NewsView from './components/news-view'
 import LogsView from './components/logs-view'
 import NotFoundView from './components/not-found-view'
+import TeamScoreView from './components/team-score-view'
 
 import dataManager from './utils/data-manager'
 
@@ -31,6 +32,8 @@ function render (identity) {
         <Route path='scoreboard' component={ScoreboardView} />
         <Route path='news' component={NewsView} />
         <Route path='logs' component={identity.isInternal() ? LogsView : NotFoundView} />
+        <Route path='team/stats' component={identity.isTeam() ? TeamScoreView : NotFoundView} identity={identity} />
+        <Route path='team/:teamIdStr/stats' component={identity.isInternal() ? TeamScoreView : NotFoundView} identity={identity} />
         <Route path='*' component={NotFoundView} />
       </Route>
     </Router>,
