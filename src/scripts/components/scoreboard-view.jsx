@@ -164,7 +164,8 @@ export default class ScoreboardView extends React.Component {
         defencePoints: position.defencePoints,
         lastAttack: position.lastAttack,
         guest: team.guest,
-        logoHash: team.logoHash
+        logoHash: team.logoHash,
+        trend: position.trend
       }
 
       for (let service of this.state.services.collection) {

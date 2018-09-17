@@ -56,7 +56,9 @@ body {
   color: #cd7f32
 }
 
-.themis-team-other {
+.themis-team {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .themis-team-marked {

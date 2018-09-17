@@ -1,4 +1,9 @@
 import React from 'react'
+import ActionTrendingFlat from 'material-ui/svg-icons/action/trending-flat'
+import ActionTrendingUp from 'material-ui/svg-icons/action/trending-up'
+import ActionTrendingDown from 'material-ui/svg-icons/action/trending-down'
+
+import { red600, green600, grey600 } from 'material-ui/styles/colors'
 
 export default class ScoreTablePositionCellView extends React.Component {
   render () {
@@ -15,8 +20,26 @@ export default class ScoreTablePositionCellView extends React.Component {
         break
     }
     return (
-      <td className={className}>
-        {this.props.value}
+      <td>
+        <span className={className}>{this.props.value}</span>
+        {
+          (() => {
+            const style = {
+              opacity: this.props.muted ? 0.5 : 1,
+              verticalAlign: 'bottom',
+              marginLeft: '5px',
+              cursor: 'pointer',
+              display: 'inline-block'
+            }
+            if (this.props.trend < 0) {
+              return <span style={style} title="Position is on the decrease"><ActionTrendingDown color={red600} /></span>
+            } else if (this.props.trend > 0) {
+              return <span style={style} title="Position is on the increase"><ActionTrendingUp color={green600} /></span>
+            } else {
+              return <span style={style} title="Position is unlikely to change"><ActionTrendingFlat color={grey600} /></span>
+            }
+          })()
+        }
       </td>
     )
   }

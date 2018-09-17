@@ -20,11 +20,11 @@ class ScoreTableTeamCellView extends React.Component {
   }
 
   render () {
-    let className = 'themis-team-other'
+    let className = 'themis-team'
     const exactTeam = this.props.identity.isTeam() && this.props.identity.getId() === this.props.teamId
 
     if (exactTeam) {
-      className = 'themis-team-marked'
+      className = `${className} themis-team-marked`
     }
 
     let extras = ''

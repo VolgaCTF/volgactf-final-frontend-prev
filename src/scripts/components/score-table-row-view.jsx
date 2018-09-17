@@ -11,8 +11,8 @@ export default class ScoreTableRowView extends React.Component {
     let cells = this.props.order.map((column, ndx) => {
       let value = this.props.data[column]
 
-      if (column === 'position') {
-        return <ScoreTablePositionCellView key={ndx} value={value} />
+      if (column === 'rank') {
+        return <ScoreTablePositionCellView key={ndx} value={value} trend={this.props.data.trend} muted={this.props.muted} />
       } else if (column.lastIndexOf('#service_') === 0) {
         return <ScoreTableServiceStateCellView key={ndx} value={value} />
       } else if (column === 'totalPoints') {

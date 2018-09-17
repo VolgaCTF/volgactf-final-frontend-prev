@@ -6,5 +6,6 @@ export default class ScoreboardPositionModel {
     this.availabilityPoints = props.availability_points
     this.defencePoints = props.defence_points
     this.lastAttack = props.last_attack ? new Date(props.last_attack) : null
+    this.trend = props.trend
   }
 }
