@@ -20,24 +20,30 @@ class TeamScoreStore {
       handleOnAdd: TeamScoreActions.ON_ADD
     })
 
-    // eventManager.on('team/service/pull-state', (e) => {
-    //   let data = JSON.parse(e.data)
-    //   TeamServicePullStateActions.updateSingle(new TeamServicePullStateModel(data))
-    // })
+    eventManager.on('team/score', (e) => {
+      const data = JSON.parse(e.data)
+      TeamScoreActions.onAdd(new TeamScoreModel(data))
+    })
   }
 
   handleUpdate (teamScores) {
     this.setState({
       loading: false,
       err: null,
+      filter: this.state.filter,
       collection: teamScores
     })
   }
 
   handleOnAdd (teamScore) {
+    if (teamScore.teamId !== this.state.filter) {
+      return
+    }
+
     this.setState({
       loading: false,
       err: null,
+      filter: this.state.filter,
       collection: this.state.collection.push(teamScore)
     })
   }
@@ -46,6 +52,7 @@ class TeamScoreStore {
     this.setState({
       loading: true,
       err: null,
+      filter: this.state.filter,
       collection: new List()
     })
   }
@@ -54,6 +61,7 @@ class TeamScoreStore {
     this.setState({
       loading: false,
       err: err,
+      filter: this.state.filter,
       collection: new List()
     })
   }

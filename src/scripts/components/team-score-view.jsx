@@ -88,6 +88,10 @@ export default class TeamScoreView extends React.Component {
       rows.push(row)
     }
 
+    rows.sort(function (a, b) {
+      return b.round - a.round
+    })
+
     return {
       order: order,
       rows: rows,
