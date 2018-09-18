@@ -42,7 +42,7 @@ class LogStore {
     this.setState({
       loading: false,
       err: null,
-      collection: List.prototype.push.apply(this.state.collection, logs)
+      collection: List.prototype.push.apply(this.state.collection, logs).groupBy(x => x.id).map(x => x.first()).toList()
     })
   }
 }

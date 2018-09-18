@@ -172,7 +172,7 @@ export default class LogView extends React.Component {
         text = this.renderTeamServicePullStateUpdate(this.props.params)
         break
       case 4:
-        text = renderAttack(this.props.params)
+        text = this.renderAttack(this.props.params)
         break
       case 41:
         text = this.renderServiceEnable(this.props.params)
