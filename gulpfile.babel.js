@@ -40,7 +40,7 @@ if (Customize.extraImages) {
 }
 
 function isProduction () {
-  return process.env['NODE_ENV'] === 'production'
+  return process.env['THEMIS_FINALS_PRODUCTION'] === 'yes'
 }
 
 gulp.task('clean_html', function () {
