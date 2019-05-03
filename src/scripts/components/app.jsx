@@ -171,8 +171,8 @@ class App extends React.Component {
             </main>
 
             <Paper zDepth={0} rounded={false} style={footerStyle}>
-              <p>&copy; {(new Date()).getFullYear()} <a href='https://aspyatkin.com' target='_blank' style={linkStyle}>Alexander Pyatkin</a>. Devised in Samara, Russia.</p>
-              <p>Find this project on <a href='https://github.com/themis-project/themis-finals' target='_blank' style={linkStyle}>GitHub</a></p>
+              <p>&copy; {(new Date()).getFullYear()} <a href='https://volgactf.ru' target='_blank' style={linkStyle}>VolgaCTF</a>. Devised in Samara, Russia.</p>
+              <p>Find this project on <a href='https://github.com/VolgaCTF/volgactf-final' target='_blank' style={linkStyle}>GitHub</a></p>
             </Paper>
           </section>
         </DocumentTitle>
