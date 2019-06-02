@@ -94,7 +94,7 @@ export default class PostEditDialogView extends React.Component {
           </div>
           <Card style={previewStyle}>
             <CardTitle title={this.state.title} />
-            <CardText className='themis-post' dangerouslySetInnerHTML={{__html: md.render(this.state.description)}} />
+            <CardText className='volgactf-final-post' dangerouslySetInnerHTML={{__html: md.render(this.state.description)}} />
           </Card>
         </div>
       </Dialog>

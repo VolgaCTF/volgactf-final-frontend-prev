@@ -48,7 +48,7 @@ export default class PostView extends React.Component {
     return (
       <Card style={style}>
         <CardTitle title={this.props.title} />
-        <CardText className='themis-post' dangerouslySetInnerHTML={{__html: md.render(this.props.description)}} />
+        <CardText className='volgactf-final-post' dangerouslySetInnerHTML={{__html: md.render(this.props.description)}} />
         {actions}
         <CardText>
           Published on {moment(this.props.updatedAt).format('lll')}

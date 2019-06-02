@@ -12,7 +12,7 @@ export default class TeamScoreTableView extends React.Component {
     })
 
     return (
-      <table className='themis-table'>
+      <table className='volgactf-final-table'>
         <thead>
           <TeamScoreTableHeaderView order={this.props.table.order} headers={this.props.table.headers} />
         </thead>

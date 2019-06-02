@@ -12,88 +12,88 @@ body {
   max-height: 36px;
 }
 
-.themis-table {
+.volgactf-final-table {
   border-collapse: collapse;
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px
 }
 
-.themis-table > tbody > tr > td,
-.themis-table > thead > tr > th {
+.volgactf-final-table > tbody > tr > td,
+.volgactf-final-table > thead > tr > th {
   padding: 6px;
   line-height: 1.4;
   vertical-align: middle;
   border-top: 1px solid #ddd
 }
 
-.themis-table > thead > tr > th {
+.volgactf-final-table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 2px solid #ddd
 }
 
-.themis-table > thead:first-child > tr:first-child > th {
+.volgactf-final-table > thead:first-child > tr:first-child > th {
   border-top: 0
 }
 
-.themis-table > thead > tr > th {
+.volgactf-final-table > thead > tr > th {
   text-align: left
 }
 
-.themis-position {
+.volgactf-final-position {
   font-weight: bold
 }
 
-.themis-position-gold {
+.volgactf-final-position-gold {
   color: #d4af37
 }
 
-.themis-position-silver {
+.volgactf-final-position-silver {
   color: #c0c0c0
 }
 
-.themis-position-bronze {
+.volgactf-final-position-bronze {
   color: #cd7f32
 }
 
-.themis-team {
+.volgactf-final-team {
   display: inline-block;
   vertical-align: middle;
 }
 
-.themis-team-marked {
+.volgactf-final-team-marked {
   font-weight: bold
 }
 
-.themis-score-points {
+.volgactf-final-score-points {
   font-size: 0.7em
 }
 
-.themis-score-last-attack {
+.volgactf-final-score-last-attack {
   font-size: 0.7em
 }
 
-.themis-text-normal {
+.volgactf-final-text-normal {
 }
 
-.themis-text-muted {
+.volgactf-final-text-muted {
   color: #777
 }
 
-.themis-team-guest {
+.volgactf-final-team-guest {
   font-size: 0.8em;
   padding: 2px 4px;
   color: #777;
   background-color: #f4f4f4
 }
 
-.themis-team-logo {
+.volgactf-final-team-logo {
   width: 40px;
   height: 40px;
   vertical-align: middle
 }
 
-.themis-post > p {
+.volgactf-final-post > p {
   margin: 0;
   line-height: 1.5em;
 }

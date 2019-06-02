@@ -1,9 +1,9 @@
 {
-  "name": "themis-finals-frontend",
-  "version": "2.0.0",
+  "name": "volgactf-final-frontend",
+  "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:themis-project/themis-finals-frontend.git",
-  "author": "Alexander Pyatkin <aspyatkin@users.noreply.github.com>",
+  "repository": "git@github.com:VolgaCTF/volgactf-final-frontend.git",
+  "author": "Alexander Pyatkin <aspyatkin@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "gulp",
@@ -18,7 +18,8 @@
     "browserify": "13.1.0",
     "del": "3.0.0",
     "gulp": "4.0.0",
-    "gulp-concat": "2.6.0",
+    "gulp-concat": "2.6.1",
+    "concat-with-sourcemaps": "1.0.6",
     "gulp-if": "2.0.1",
     "gulp-minify-css": "1.2.4",
     "gulp-minify-html": "1.0.6",

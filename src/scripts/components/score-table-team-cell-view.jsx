@@ -20,18 +20,18 @@ class ScoreTableTeamCellView extends React.Component {
   }
 
   render () {
-    let className = 'themis-team'
+    let className = 'volgactf-final-team'
     const exactTeam = this.props.identity.isTeam() && this.props.identity.getId() === this.props.teamId
 
     if (exactTeam) {
-      className = `${className} themis-team-marked`
+      className = `${className} volgactf-final-team-marked`
     }
 
     let extras = ''
     if (this.props.guest) {
       extras = [
         <span key={0}>&nbsp;&nbsp;</span>,
-        <span key={1} className='themis-team-guest'>guest</span>
+        <span key={1} className='volgactf-final-team-guest'>guest</span>
       ]
     }
 
@@ -53,9 +53,9 @@ class ScoreTableTeamCellView extends React.Component {
         {
           (() => {
             if (exactTeam  && this.props.teamLogoHash) {
-              return <img className='themis-team-logo' style={{cursor: 'pointer'}} src={logoSrc} onTouchTap={this.onChangeTeamLogoDialog} />
+              return <img className='volgactf-final-team-logo' style={{cursor: 'pointer'}} src={logoSrc} onTouchTap={this.onChangeTeamLogoDialog} />
             } else {
-              return <img className='themis-team-logo' src={logoSrc} />
+              return <img className='volgactf-final-team-logo' src={logoSrc} />
             }
           })()
         }

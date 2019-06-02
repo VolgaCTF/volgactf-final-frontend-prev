@@ -10,13 +10,13 @@ export default class ScoreTablePositionCellView extends React.Component {
     let className = null
     switch (this.props.value) {
       case 1:
-        className = 'themis-position themis-position-gold'
+        className = 'volgactf-final-position volgactf-final-position-gold'
         break
       case 2:
-        className = 'themis-position themis-position-silver'
+        className = 'volgactf-final-position volgactf-final-position-silver'
         break
       case 3:
-        className = 'themis-position themis-position-bronze'
+        className = 'volgactf-final-position volgactf-final-position-bronze'
         break
     }
     return (

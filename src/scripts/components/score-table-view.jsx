@@ -12,7 +12,7 @@ export default class ScoreTableView extends React.Component {
     })
 
     return (
-      <table className='themis-table'>
+      <table className='volgactf-final-table'>
         <thead>
           <ScoreTableHeaderView order={this.props.table.order} headers={this.props.table.headers} />
         </thead>
